@@ -4,9 +4,12 @@
 # Script to print connection info from logs/appinstallation/AppUpdates.sqlite.db
 # Author: david@autopsit.org
 
+# PID: encoded in Litlle Endian??
+
 import sys
 from optparse import OptionParser
 import time
+import struct
 import datetime
 import sqlite3
 
@@ -40,6 +43,11 @@ try:
         # convert install_date from Cocoa EPOCH -> UTC
         epoch = install_date + 978307200 # difference between COCOA and UNIX epoch is 978307200 seconds
         utctime = datetime.datetime.utcfromtimestamp(epoch)
+
+        # convert PID
+        #pid =  struct.pack('>I', pid)
+
+        # print result
         print("%s,%s,%s" % (pid, bundle_id, utctime))
 except:
     print("AN UNHANDLED ERRORS OCCURS AND THE DB WAS NOT PARSED")
